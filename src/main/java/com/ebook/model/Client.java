@@ -1,5 +1,7 @@
 package com.ebook.model;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,11 +16,13 @@ public class Client {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id_clent;
+	private Long id_Clent;
 	
 	@Column(nullable = false)
 	private String nome;
 	
+	@Column(nullable = false)
+	private List<Books> books;
 	
 
 }

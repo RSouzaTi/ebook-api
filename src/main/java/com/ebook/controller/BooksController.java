@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ebook.model.Books;
+import com.ebook.model.Client;
 import com.ebook.model.SelecioneStatus;
 import com.ebook.repository.BookRepository;
+import com.ebook.repository.ClientRepository;
 
 @RestController
 @RequestMapping("/books")
@@ -23,6 +25,9 @@ public class BooksController {
 
 	@Autowired
 	private BookRepository bookRepository;
+
+	@Autowired
+	private ClientRepository clientRepository;
 
 	@GetMapping
 	public List<Books> listar() {
@@ -36,15 +41,17 @@ public class BooksController {
 		return bookRepository.save(books);
 
 	}
-	
-	@PostMapping("/{codigo}/reserve")
-	public Books reservar(@PathVariable Long codigo) {
-		 Optional<Books> books = bookRepository.findById(codigo);
-		 Books updateBook = books.get();
-				 updateBook.setStatus(SelecioneStatus.EMPRESTADO);
-		 return adicionar(books.get());
-	}
-	
-	
-}
 
+	@PostMapping("/{codigo}/reserve")
+	public Books reservar(@PathVariable Long codigo, Long idClient) {
+		Optional<Client> client = clientRepository.findById(idClient);
+		Optional<Books> books = bookRepository.findById(codigo);
+		Books updateBook = books.get();
+		updateBook.setStatus(SelecioneStatus.EMPRESTADO);
+		Client updatedClient = client.get();
+		updatedClient.getBooks().add(updateBook);
+		return clientRepository.save(client);
+		
+	}
+
+}
