@@ -4,7 +4,9 @@ Api  Java Rest - desafio
 
 #APIs endpoints
 GET http://localhost:8080/books [lista todos os Livros]
+
 POST http://localhost:8080/books [cadastra um novo Livro]
+
 POST http://localhost:8080/books/{id}/reserve [Reserva um Livro pela ID]
 
 
